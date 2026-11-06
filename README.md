@@ -8,7 +8,7 @@ Minecraft network development project for **GitHub Codespaces**, assembled aroun
 - Fresh Lobby, Survival, BedWars, SkyWars backends: configured by the bootstrap script, **not launched or play-tested**.
 - Lobby map, NPC game selectors, economy shops, BedWars/SkyWars gameplay and arenas: **not yet installed**.
 - DiscordSRV: requires a privately supplied Discord bot token and testing.
-- Authentication: Velocity requires official Minecraft account authentication by default; offline/TLauncher impersonation is not enabled.
+- Authentication: **LOCAL TEST ONLY**: the new scaffold uses offline-mode for TLauncher testing and binds the Velocity proxy to 127.0.0.1. Do not forward port 25565 or publish this configuration: usernames can be impersonated.
 
 ## Repository contents
 - `scripts/bootstrap.sh` prepares a separate `shabab-network/` folder; it never overwrites the existing `minecraft-server/` folder.
@@ -21,7 +21,7 @@ Minecraft network development project for **GitHub Codespaces**, assembled aroun
 
 | Component | Local port | Public |
 | --- | --- | --- |
-| Velocity proxy | 25565 | Only public endpoint (if explicitly forwarded) |
+| Velocity proxy | 25565 | Localhost only (offline-mode test) |
 | Paper Lobby | 25566 | No, loopback |
 | Paper Survival | 25567 | No, loopback |
 | Paper BedWars | 25568 | No, loopback |
