@@ -13,6 +13,10 @@ commands:
   shop:
     description: Open the basic emerald shop
     usage: /shop
+  buildhub:
+    description: Safely build the starter lobby on fresh empty terrain
+    usage: /buildhub
+    permission: shabab.admin
   shababnpc:
     description: Spawn a ShababCore menu NPC at your location
     usage: /shababnpc games|shop
