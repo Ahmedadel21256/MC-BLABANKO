@@ -1,4 +1,4 @@
-# SHABAB SMP secrets and runtime files
+# Secrets and local server state: never upload player data or credentials
 .env
 .env.*
 !.env.example
@@ -10,6 +10,14 @@
 **/eula.txt
 **/usercache.json
 **/banned-players.json
+**/banned-ips.json
 **/ops.json
 **/whitelist.json
 **/players.db
+shabab-network/
+minecraft-server/
+*.jar
+*.db
+*.sqlite
+*.sqlite3
+*.log
