@@ -1,6 +1,5 @@
 package net.shababsmp.core;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -22,18 +21,21 @@ public final class HubBuilder {
     private HubBuilder() {}
 
     public static void build(Player player, JavaPlugin plugin, NamespacedKey npcKey) {
-        World world = player.getWorld();
+        buildWorld(player.getWorld(), player, plugin, npcKey);
+    }
+
+    public static void buildWorld(World world, Player player, JavaPlugin plugin, NamespacedKey npcKey) {
         if (!plugin.getConfig().getString("server-name", "").equalsIgnoreCase("lobby")) {
-            player.sendMessage(ChatColor.RED + "Hub construction is only available on the Lobby backend.");
+            notify(player, plugin, "Hub construction is only available on the Lobby backend.");
             return;
         }
         NamespacedKey marker = new NamespacedKey(plugin, "generated_hub_v1");
         if (world.getPersistentDataContainer().has(marker, PersistentDataType.BYTE)) {
-            player.sendMessage(ChatColor.YELLOW + "The starter lobby already exists in this world.");
+            notify(player, plugin, "The starter lobby already exists in this world.");
             return;
         }
         if (Y + 12 >= world.getMaxHeight() || Y - 2 < world.getMinHeight()) {
-            player.sendMessage(ChatColor.RED + "This world's build height is incompatible.");
+            notify(player, plugin, "This world\'s build height is incompatible.");
             return;
         }
         // Check ALL positions that may be changed, including NPC positions.
@@ -42,7 +44,7 @@ public final class HubBuilder {
                 if (x * x + z * z > (R + 2) * (R + 2)) continue;
                 for (int y = Y - 2; y <= Y + 10; y++) {
                     if (!world.getBlockAt(x, y, z).getType().isAir()) {
-                        player.sendMessage(ChatColor.RED + "Construction cancelled: blocks already exist near "
+                        notify(player, plugin, "Construction cancelled: blocks already exist near "
                             + x + ", " + y + ", " + z + ". No changes made.");
                         return;
                     }
@@ -82,11 +84,18 @@ public final class HubBuilder {
         npc(world, -4.5, Y+1, 4.5, "shop", npcKey, ChatColor.GREEN + "Starter Shop");
         world.setSpawnLocation(0, Y+1, 0);
         world.getPersistentDataContainer().set(marker, PersistentDataType.BYTE, (byte) 1);
-        player.teleport(new Location(world, 0.5, Y+1, 0.5));
-        player.sendMessage(ChatColor.GREEN + "SHABAB SMP starter hub created at 0, " + Y + ", 0!");
-        player.sendMessage(ChatColor.GRAY + "Green=Survival | Red=BedWars | Blue=SkyWars | Purple=Lobby.");
-        player.sendMessage(ChatColor.GRAY + "Use /games or the Game Selector NPC to travel.");
-        plugin.getLogger().info("Created SHABAB SMP starter hub for " + player.getName());
+        if (player != null) {
+            player.teleport(new Location(world, 0.5, Y+1, 0.5));
+            player.sendMessage(ChatColor.GREEN + "SHABAB SMP starter hub created at 0, " + Y + ", 0!");
+            player.sendMessage(ChatColor.GRAY + "Green=Survival | Red=BedWars | Blue=SkyWars | Purple=Lobby.");
+            player.sendMessage(ChatColor.GRAY + "Use /games or the Game Selector NPC to travel.");
+        }
+        plugin.getLogger().info("Created SHABAB SMP starter hub in " + world.getName());
+    }
+
+    private static void notify(Player player, JavaPlugin plugin, String message) {
+        if (player != null) player.sendMessage(ChatColor.YELLOW + message);
+        plugin.getLogger().warning(message);
     }
 
     private static void gateway(World world, int x, int z, Material color) {
