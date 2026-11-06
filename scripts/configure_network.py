@@ -26,11 +26,11 @@ def write_new(path, contents):
 
 
 write_new(base / "proxy" / "velocity.toml", """config-version = "2.7"
-bind = "0.0.0.0:25565"
+bind = "127.0.0.1:25565"
 motd = "<gold>SHABAB SMP</gold> <gray>| Lobby, Survival, BedWars, SkyWars"
 show-max-players = 100
-online-mode = true
-force-key-authentication = true
+online-mode = false
+force-key-authentication = false
 player-info-forwarding-mode = "modern"
 forwarding-secret-file = "forwarding.secret"
 announce-forge = false
@@ -55,8 +55,8 @@ server-ip=127.0.0.1
 motd=SHABAB SMP | {name.title()}
 online-mode=false
 enforce-secure-profile=false
-white-list=true
-enforce-whitelist=true
+white-list=false
+enforce-whitelist=false
 spawn-protection=16
 enable-command-block=false
 view-distance=6
@@ -68,9 +68,9 @@ level-name=world
     write_new(location / "config" / "paper-global.yml", f"""proxies:
   velocity:
     enabled: true
-    online-mode: true
+    online-mode: false
     secret: '{secret}'
 """)
     (location / "plugins").mkdir(parents=True, exist_ok=True)
-print("Velocity authenticates Minecraft accounts. The backends are accessible only on 127.0.0.1.")
+print("LOCAL TEST ONLY: Proxy uses offline mode, and all servers bind to 127.0.0.1. DO NOT expose it publicly.")
 print("No EULA has been accepted and no server has been launched.")
