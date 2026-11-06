@@ -1,0 +1,6 @@
+# Must match the backend name configured in Velocity: lobby, survival, bedwars, skywars.
+server-name: lobby
+# NPCs spawn on first use of /shababnpcs? No: admins use /games and /shop.
+# Individual NPCs can be created by an administrator using the /shababnpc command.
+# The plugin will not automatically spawn duplicates in loaded chunks.
+shop-enabled: true
