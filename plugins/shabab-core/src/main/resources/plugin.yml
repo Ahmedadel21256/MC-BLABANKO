@@ -1,0 +1,25 @@
+name: ShababCore
+version: 1.0.0
+main: net.shababsmp.core.ShababCore
+api-version: '1.21'
+description: Lobby selector, network navigation, server NPCs, and basic emerald shop for SHABAB SMP
+commands:
+  hub:
+    description: Connect to the network lobby
+    usage: /hub
+  games:
+    description: Open the network game selector
+    usage: /games
+  shop:
+    description: Open the basic emerald shop
+    usage: /shop
+permissions:
+  shabab.shop:
+    description: Allows access to the emerald shop
+    default: true
+  shabab.admin:
+    description: Allows administrator NPC spawning
+    default: op
+  shabab.use:
+    description: Allows server navigation
+    default: true
