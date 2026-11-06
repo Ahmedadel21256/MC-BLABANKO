@@ -30,6 +30,7 @@ PLUGIN_SPECS: dict[str, tuple[tuple[str, ...], tuple[str, ...]]] = {
     "DeluxeHub": (("DeluxeHub-",), ("lobby",)),
     "DiscordSRV": (("DiscordSRV-Build-",), ("lobby",)),
     "EssentialsX": (("EssentialsX-",), ("survival",)),
+    "EconomyShopGUI": (("EconomyShopGUI-", "EconomyShopGUI.jar"), ("survival",)),
     "Floodgate": (("floodgate-spigot",), ("lobby",)), # review proxy architecture before enabling
     "Geyser": (("Geyser-Spigot",), ("lobby",)), # review proxy architecture before enabling
     "JoinCore": (("JoinCore",), ("lobby",)),
@@ -74,9 +75,18 @@ def main() -> int:
     parser.add_argument("--source", type=Path, default=DEFAULT_SOURCE,
                         help="Existing Paper plugins directory (defaults to minecraft-server/plugins)")
     parser.add_argument("--apply", action="store_true", help="Copy non-conflicting jars")
+    parser.add_argument("--only", action="append", metavar="PLUGIN",
+                        help="Only consider one named plugin; repeat flag to select several")
     parser.add_argument("--include-game-plugins", action="store_true",
                         help="Include BedWars/SkyWars jars after compatibility review")
     args = parser.parse_args()
+    requested = {name.casefold(): name for name in (args.only or [])}
+    canonical = {name.casefold(): name for name in PLUGIN_SPECS}
+    unknown = [name for key, name in requested.items() if key not in canonical]
+    if unknown:
+        parser.error("Unknown plugin(s): " + ", ".join(unknown)
+                     + ". Allowed: " + ", ".join(sorted(PLUGIN_SPECS)))
+    selected = {canonical[key] for key in requested} if requested else set(PLUGIN_SPECS)
     source = args.source.resolve()
     if not source.is_dir():
         print(f"ERROR: source plugins folder not found: {source}", file=sys.stderr)
@@ -94,6 +104,8 @@ def main() -> int:
     print("MODE:", "COPY (no overwrites)" if args.apply else "DRY RUN")
     print("SOURCE:", source)
     for label, (prefixes, targets) in PLUGIN_SPECS.items():
+        if label not in selected:
+            continue
         matches = [p for p in available
                    if any(p.name.casefold().startswith(prefix.casefold()) for prefix in prefixes)]
         if not matches:
