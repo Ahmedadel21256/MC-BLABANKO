@@ -1,6 +1,5 @@
 package net.shababsmp.core;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Set;
 import org.bukkit.Bukkit;
@@ -15,6 +14,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -37,6 +40,7 @@ public final class ShababCore extends JavaPlugin implements Listener {
         16, new Offer(Material.IRON_INGOT, 8, 10)
     );
     private NamespacedKey npcKey;
+    private NamespacedKey selectorKey;
 
     private record Offer(Material material, int quantity, int emeralds) {}
 
@@ -44,6 +48,7 @@ public final class ShababCore extends JavaPlugin implements Listener {
     public void onEnable() {
         saveDefaultConfig();
         npcKey = new NamespacedKey(this, "network_npc");
+        selectorKey = new NamespacedKey(this, "games_selector");
         Bukkit.getPluginManager().registerEvents(this, this);
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         getLogger().info("ShababCore ready on " + getConfig().getString("server-name", "unknown"));
@@ -122,6 +127,51 @@ public final class ShababCore extends JavaPlugin implements Listener {
                 offer.quantity() + " " + offer.material().name().replace('_', ' ') + " | " + offer.emeralds() + " emeralds"));
         }
         player.openInventory(inv);
+    }
+
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        if (!getConfig().getString("server-name", "").equalsIgnoreCase("lobby")) return;
+        String welcomeName = getConfig().getString("featured-player", "I_luca1");
+        player.sendMessage(ChatColor.AQUA + "Welcome to SHABAB SMP, " + player.getName() + "!");
+        player.sendMessage(ChatColor.GRAY + "Network host: " + welcomeName
+            + " | Use your compass or /games to select a server.");
+        Bukkit.getScheduler().runTask(this, () -> {
+            if (!player.isOnline()) return;
+            if (hasSelector(player)) return;
+            ItemStack compass = icon(Material.COMPASS, "SHABAB SMP | Game Selector");
+            // Item meta must be set back after editing PersistentDataContainer.
+            ItemMeta meta = compass.getItemMeta();
+            meta.getPersistentDataContainer().set(selectorKey, PersistentDataType.BYTE, (byte) 1);
+            compass.setItemMeta(meta);
+            int slot = player.getInventory().firstEmpty();
+            if (slot >= 0) player.getInventory().setItem(slot, compass);
+        });
+    }
+
+    private boolean hasSelector(Player player) {
+        for (ItemStack item : player.getInventory().getContents()) {
+            if (item != null && isSelector(item)) return true;
+        }
+        return false;
+    }
+
+    private boolean isSelector(ItemStack item) {
+        return item != null && item.getType() == Material.COMPASS
+            && item.hasItemMeta() && item.getItemMeta().getPersistentDataContainer()
+                .has(selectorKey, PersistentDataType.BYTE);
+    }
+
+    @EventHandler
+    public void onSelectorUse(PlayerInteractEvent event) {
+        if (event.getHand() != EquipmentSlot.HAND) return;
+        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (!getConfig().getString("server-name", "").equalsIgnoreCase("lobby")) return;
+        if (!isSelector(event.getItem())) return;
+        event.setCancelled(true);
+        openGames(event.getPlayer());
     }
 
     @EventHandler
