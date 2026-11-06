@@ -11,6 +11,7 @@ if [[ -z "$JAVA_MAJOR" || "$JAVA_MAJOR" -lt 25 ]]; then
 fi
 python3 -c 'import tomllib' || { echo "Python 3.11+ with tomllib required" >&2; exit 1; }
 python3 "$ROOT/scripts/configure_network.py" "$BASE"
+python3 "$ROOT/scripts/grant_local_op.py" "$BASE"
 python3 "$ROOT/scripts/download_servers.py" "$BASE"
 python3 "$ROOT/scripts/validate_network.py" "$BASE"
 echo "Prepared $BASE. No existing minecraft-server files were modified."
