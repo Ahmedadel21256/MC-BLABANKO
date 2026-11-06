@@ -24,6 +24,19 @@ jobs:
         run: mvn --batch-mode -f plugins/shabab-core/pom.xml -DskipTests package
       - name: Check Python syntax
         run: python3 -m compileall -q scripts
+      - name: Validate local-only network and offline operator generation
+        run: |
+          python3 scripts/configure_network.py "$RUNNER_TEMP/shabab-ci"
+          python3 scripts/grant_local_op.py "$RUNNER_TEMP/shabab-ci"
+          python3 scripts/validate_network.py "$RUNNER_TEMP/shabab-ci"
+          python3 - <<'PY'
+          import json, os, pathlib
+          base=pathlib.Path(os.environ["RUNNER_TEMP"]) / "shabab-ci"
+          for server in ("lobby", "survival", "bedwars", "skywars"):
+              entries=json.loads((base / server / "ops.json").read_text())
+              assert len(entries)==1 and entries[0]["name"]=="I_luca1" and entries[0]["level"]==4
+          print("PASS: local-only operator provisioning")
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: ShababCore-plugin
