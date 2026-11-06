@@ -59,6 +59,15 @@ public final class ShababCore extends JavaPlugin implements Listener {
                 }
             }, 60L);
         }
+        String backendName = getConfig().getString("server-name", "");
+        if ((backendName.equalsIgnoreCase("bedwars") || backendName.equalsIgnoreCase("skywars"))
+                && getConfig().getBoolean("auto-build-practice-arenas", true)) {
+            Bukkit.getScheduler().runTaskLater(this, () -> {
+                if (!Bukkit.getWorlds().isEmpty()) {
+                    ArenaBuilder.create(Bukkit.getWorlds().get(0), this, backendName.toLowerCase(java.util.Locale.ROOT));
+                }
+            }, 80L);
+        }
         getLogger().info("ShababCore ready on " + getConfig().getString("server-name", "unknown"));
     }
 
