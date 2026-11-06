@@ -11,8 +11,8 @@ for name in lobby survival bedwars skywars; do
   cp "$JAR" "$BASE/$name/plugins/ShababCore.jar"
   mkdir -p "$BASE/$name/plugins/ShababCore"
   if [[ ! -f "$BASE/$name/plugins/ShababCore/config.yml" ]]; then
-    printf 'server-name: %s\nshop-enabled: %s\n' "$name" "$([[ "$name" == "survival" ]] && echo true || echo false)" > "$BASE/$name/plugins/ShababCore/config.yml"
+    printf 'server-name: %s\nfeatured-player: I_luca1\nshop-enabled: %s\n' "$name" "$([[ "$name" == "survival" ]] && echo true || echo false)" > "$BASE/$name/plugins/ShababCore/config.yml"
   fi
 done
-echo "ShababCore built and installed into four BACKEND folders."
-echo "Restart the servers to load the plugin; do not run twice concurrently."
+echo "ShababCore built and installed into four backend folders."
+echo "Existing plugin configurations were preserved."
