@@ -81,6 +81,11 @@ public final class ShababCore extends JavaPlugin implements Listener {
             openShop(player);
             return true;
         }
+        if (name.equals("buildhub")) {
+            if (!player.hasPermission("shabab.admin")) return noPermission(player);
+            HubBuilder.build(player, this, npcKey);
+            return true;
+        }
         if (name.equals("shababnpc")) {
             if (!player.hasPermission("shabab.admin")) return noPermission(player);
             if (args.length != 1 || !Set.of("games", "shop").contains(args[0].toLowerCase(java.util.Locale.ROOT))) {
