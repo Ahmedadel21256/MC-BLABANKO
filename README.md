@@ -29,3 +29,6 @@ Minecraft network development project for **GitHub Codespaces**, assembled aroun
 
 ## Boundaries
 Codespaces may suspend and cannot guarantee 24/7 uptime. Its available memory may be insufficient for five Java processes; 8 GB+ is recommended for experimentation. Read [setup and outstanding work](docs/SETUP.md) before attempting to invite players. No server has been started through this GitHub connector, which cannot access Codespaces' live terminal.
+
+## Local test operator
+The bootstrap script creates a local-only offline UUID operator entry for `I_luca1` with OP level 4 on all four Paper backends. The `ops.json` files are generated inside the ignored `shabab-network/` folder, never committed. This **does not make the player a secure owner**: anyone who can join the offline-mode proxy using that username could obtain OP. The Velocity proxy must remain bound to `127.0.0.1`, and the script refuses to grant these permissions otherwise. Changes are NOT yet applied to the live Codespaces container until bootstrap executes there.
