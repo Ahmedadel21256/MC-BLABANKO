@@ -1,0 +1,31 @@
+name: Verify SHABAB SMP source
+on:
+  push:
+    paths:
+      - '.github/workflows/build-core.yml'
+      - 'plugins/shabab-core/**'
+      - 'scripts/**'
+  workflow_dispatch:
+
+jobs:
+  compile-core:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Java 21 for Paper API compilation
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Build core plugin with Maven
+        run: mvn --batch-mode -f plugins/shabab-core/pom.xml -DskipTests package
+      - name: Check Python syntax
+        run: python3 -m compileall -q scripts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ShababCore-plugin
+          path: plugins/shabab-core/target/shabab-core-1.0.0.jar
+          if-no-files-found: error
