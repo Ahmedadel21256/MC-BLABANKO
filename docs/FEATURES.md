@@ -22,3 +22,6 @@ The plugin is configured separately per backend by `scripts/build_core.sh`. It n
 BedWars and SkyWars **do not yet have actual game logic, maps or arenas**. Survival protection, advanced economy, NPC map construction and DiscordSRV still need installation and runtime tests. Local-only offline-mode proxy is a temporary development setup; do not expose it publicly.
 
 The Java plugin previously passed CI compilation. Subsequent changes should be checked by new GitHub Actions runs.
+
+## I_luca1 development privileges
+`bootstrap.sh` now runs `scripts/grant_local_op.py` to create `ops.json` operator records at level 4 for the offline UUID of `I_luca1` on each of the four *new* Paper backend directories. It validates that the proxy is offline-mode and bound to `127.0.0.1` and that each backend is loopback only. These are not online-account identities; **do not expose this setup to the internet**, because an impersonator using the same username would gain OP. The runtime files are gitignored and not generated in Codespaces merely by committing GitHub source.
