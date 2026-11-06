@@ -1,20 +1,24 @@
-# SHABAB SMP feature inventory
+# SHABAB SMP features and player setup
 
-## ShababCore source now in the repository
+## Player profile
 
-The Java plugin code is in `plugins/shabab-core`. It has not yet been confirmed to compile or run on Codespaces.
+The network's featured player is **I_luca1** (TLauncher username), displayed in the Lobby welcome message. A tagged compass is offered on joining the Lobby; right-clicking it opens the network selector. `I_luca1` is **not** automatically granted operator status or permissions.
 
-- `/games` opens a four-entry network selector GUI.
-- `/hub` connects back to Velocity's `lobby` backend.
-- `/shop` opens a simple starter trade GUI: emeralds for bread, cooked beef, wood and iron.
-- `/shababnpc games` and `/shababnpc shop` let an operator spawn persistent villager menu NPCs.
-- The shop has its own config toggle and is enabled on the Survival backend by `scripts/build_core.sh`.
-- Network transfers use Velocity's BungeeCord-compatible plugin message channel. Ensure your proxy supports it and verify actual connections.
+Offline-mode usernames are not verifiable identities. Any visitor with access to an offline-mode server can impersonate a username, so **do not assign OP to I_luca1 merely by name** while that configuration is in use.
 
-### Not finished
+## ShababCore
 
-The current plugin does not implement BedWars beds/team logic, SkyWars combat/loot, arenas, economy currency balances, rank permissions, claims, player statistics or a sophisticated map. Backend placeholders do not constitute playable minigames.
+The Java source in `plugins/shabab-core` includes:
+- `/hub` to request a Velocity transfer to Lobby.
+- `/games` for Lobby, Survival, BedWars and SkyWars selectors.
+- `/shop` for a simple emerald-based starter trade menu.
+- `/shababnpc games` and `/shababnpc shop` for operator-controlled villager menu NPC placement.
+- Lobby welcome message referencing `I_luca1`, without automatic administrator rights.
 
-`scripts/build_core.sh` packages and places the compiled plugin on each backend only in an environment with Maven and the Paper dependency accessible. CI should be used to check compilation; GitHub Actions does not operate on the live Codespaces server.
+The plugin is configured separately per backend by `scripts/build_core.sh`. It needs to be built and installed on the running Codespaces instances; GitHub source changes do not auto-install themselves.
 
-Authentication is set to online-mode on the public Velocity proxy. Previous TLauncher/offline-mode users will need a safe reviewed approach before joining; do not disable proxy authentication casually.
+## Still outstanding
+
+BedWars and SkyWars **do not yet have actual game logic, maps or arenas**. Survival protection, advanced economy, NPC map construction and DiscordSRV still need installation and runtime tests. Local-only offline-mode proxy is a temporary development setup; do not expose it publicly.
+
+The Java plugin previously passed CI compilation. Subsequent changes should be checked by new GitHub Actions runs.
