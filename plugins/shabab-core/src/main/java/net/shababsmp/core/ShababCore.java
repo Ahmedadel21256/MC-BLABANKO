@@ -51,6 +51,14 @@ public final class ShababCore extends JavaPlugin implements Listener {
         selectorKey = new NamespacedKey(this, "games_selector");
         Bukkit.getPluginManager().registerEvents(this, this);
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        if (getConfig().getString("server-name", "").equalsIgnoreCase("lobby")
+                && getConfig().getBoolean("auto-build-hub", true)) {
+            Bukkit.getScheduler().runTaskLater(this, () -> {
+                if (!Bukkit.getWorlds().isEmpty()) {
+                    HubBuilder.buildWorld(Bukkit.getWorlds().get(0), null, this, npcKey);
+                }
+            }, 60L);
+        }
         getLogger().info("ShababCore ready on " + getConfig().getString("server-name", "unknown"));
     }
 
