@@ -4,3 +4,7 @@ server-name: lobby
 # Display-only name: does NOT grant OP or administrator permissions.
 featured-player: I_luca1
 shop-enabled: false
+
+# Generates a one-time starter island at 0,190,0 on an empty Lobby world.
+# Safe check aborts if the build volume contains any non-air blocks.
+auto-build-hub: true
