@@ -25,3 +25,9 @@ The Java plugin previously passed CI compilation. Subsequent changes should be c
 
 ## I_luca1 development privileges
 `bootstrap.sh` now runs `scripts/grant_local_op.py` to create `ops.json` operator records at level 4 for the offline UUID of `I_luca1` on each of the four *new* Paper backend directories. It validates that the proxy is offline-mode and bound to `127.0.0.1` and that each backend is loopback only. These are not online-account identities; **do not expose this setup to the internet**, because an impersonator using the same username would gain OP. The runtime files are gitignored and not generated in Codespaces merely by committing GitHub source.
+
+## Generated starter lobby
+
+ShababCore now includes a one-time floating starter hub generator. If `auto-build-hub: true` is configured on the Lobby backend, it checks a build volume above 0,190,0 for existing blocks, **aborts without modification** when obstructed, and otherwise creates a circular stone/quartz spawn island, four colored decorative arches, a game-selection NPC, and a starter-shop NPC. It stores a marker in the world so restarting does not re-create it. The arches are decorations, not active portals; NPCs and the `/games` GUI handle selection. Operator command `/buildhub` can attempt the same guarded construction on demand.
+
+This only runs **after the new lobby backend is installed and started inside Codespaces**; a GitHub commit cannot generate Minecraft world data on the live server. Existing worlds are never deleted. Neither BedWars nor SkyWars arenas or actual match logic are complete.
