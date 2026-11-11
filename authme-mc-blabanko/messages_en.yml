@@ -1,4 +1,6 @@
-# MC BLABANKO branded AuthMe 6.x English messages (same keys as upstream)
+# MC BLABANKO | SURVIVAL SMP — woodland themed login/register messages
+# Forest green &2, warm gold &6, yellow &e, stone gray &7, dark oak &8.
+# Works with AuthMe 6.x message keys; in-game GUI layout is controlled by Minecraft/AuthMe.
 # List of global tags:
 # %nl% - Goes to new line.
 # %username% - Replaces the username of the player receiving the message.
@@ -6,11 +8,11 @@
 
 # Registration
 registration:
-  register_request: '&b&lMC BLABANKO &8» &eWelcome! Register with &f/register <password> <ConfirmPassword>'
-  command_usage: '&cUsage: /register <password> <ConfirmPassword>'
+  register_request: '&2&lMC BLABANKO &8| &6SURVIVAL SMP%nl%&7Your adventure starts here. Secure your account:%nl%&e/register <password> <ConfirmPassword>'
+  command_usage: '&6SURVIVAL SMP &8» &e/register <password> <ConfirmPassword>'
   reg_only: '&4Only registered users can join the server! Please visit http://example.com to register yourself!'
   kicked_admin_registered: 'An admin just registered you; please log in again.'
-  success: '&b&lMC BLABANKO &8» &aAccount registered! Enjoy your game.'
+  success: '&2&lMC BLABANKO &8» &aAccount secured! &7Gather resources, build a base, and begin your survival journey.'
   disabled: '&cIn-game registration is disabled!'
   name_taken: '&cYou already have registered this username!'
 
@@ -25,9 +27,9 @@ password:
 # Login
 login:
   command_usage: '&cUsage: /login <password>'
-  wrong_password: '&b&lMC BLABANKO &8» &cIncorrect password. Please try again.'
-  success: '&b&lMC BLABANKO &8» &aLogin successful. Welcome back!'
-  login_request: '&b&lMC BLABANKO &8» &eLog in with &f/login <password>'
+  wrong_password: '&2&lMC BLABANKO &8» &cIncorrect password. &7Your survival account is protected.'
+  success: '&2&lMC BLABANKO &8» &aWelcome back, adventurer! &7Your survival world awaits.'
+  login_request: '&2&lMC BLABANKO &8| &6SURVIVAL SMP%nl%&7Your world is waiting. Log in to continue:%nl%&e/login <password>'
   timeout_error: '&4Login timeout exceeded, you have been kicked from the server, please try again!'
 
 # Errors
@@ -153,21 +155,21 @@ two_factor:
 # Dialog UI
 dialog:
   login:
-    title: '&b&lMC BLABANKO &8| &fLogin'
-    body: '&7Welcome back to &bMC BLABANKO&7! Enter your password to play.'
-    password: '&fPassword'
+    title: '&2&lMC BLABANKO &8| &6SURVIVAL LOGIN'
+    body: '&6Welcome back, adventurer!%nl%&7Your base, friends, and the wilderness await.%nl%&7Enter your password to continue.'
+    password: '&6Account Password'
     recovery_email: '&fRecovery Email (optional)'
     recovery_button: '&eForgot Password?'
-    button: '&a&lLOG IN'
+    button: '&2&lENTER THE WILDERNESS'
     canceled: '&cYou have canceled the login.'
   register:
-    title: '&b&lMC BLABANKO &8| &fRegister'
-    body: '&7Welcome to &bMC BLABANKO&7! Create an account to protect your progress.'
+    title: '&2&lMC BLABANKO &8| &6START YOUR JOURNEY'
+    body: '&6A new world. A new adventure.%nl%&7Craft, explore, survive and build your legacy.%nl%&7Set a password to protect your progress.'
     password: '&fPassword'
-    confirm_password: '&fConfirm Password'
+    confirm_password: '&6Repeat Password'
     email: '&fEmail'
     confirm_email: '&fConfirm Email'
-    button: '&a&lCREATE ACCOUNT'
+    button: '&2&lBEGIN SURVIVAL'
     canceled: '&cYou have canceled the registration.'
   two_factor:
     title: '&6Two-Factor Authentication'
