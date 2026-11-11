@@ -1,4 +1,4 @@
-# MC BLABANKO - AuthMeReloaded 6.x / Paper 1.21+ preset
+# MC BLABANKO | SURVIVAL SMP - AuthMeReloaded 6.x / Paper preset
 # Replace generated config only after backing up your installed config and database.
 # This is the full upstream default with selected MC BLABANKO settings.
 # Use the matching 6.x AuthMe build; check compatibility with your Paper version.
@@ -138,7 +138,7 @@ settings:
     # a specific technical reason — it is not recommended under any normal circumstances.
     useAsyncTasks: true
     # The name of the server, used in some placeholders.
-    serverName: MC BLABANKO
+    serverName: MC BLABANKO | SURVIVAL SMP
     restrictions:
         # Can not authenticated players chat?
         # Keep in mind that this feature also blocks all commands not
@@ -371,7 +371,7 @@ settings:
     # {PLAYERNAME}: the player name (no colors)
     # {DISPLAYNAME}: the player display name (with colors)
     # {DISPLAYNAMENOCOLOR}: the player display name (without colors)
-    customJoinMessage: '&b&lMC BLABANKO &8» &aWelcome back, &f{PLAYERNAME}&a!'
+    customJoinMessage: '&2&lMC BLABANKO &8» &6Welcome to Survival SMP, &f{PLAYERNAME}&6!'
     # Should we remove the leave messages of unlogged users?
     removeUnloggedLeaveMessage: false
     # Should we remove join messages altogether?
